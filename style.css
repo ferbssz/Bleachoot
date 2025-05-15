@@ -27,11 +27,6 @@ body {
 
 }
 
-.imginicio {
-  position: absolute;
-  margin-left: 420px;
-  margin-top: -300px;
-}
 
 .nav-links a {
   position: relative;
@@ -60,34 +55,34 @@ body {
   background-color: #fb923c;
 }
 
-.hero {
-  background-image: url('https://your-image/ichigo-bg.jpg');
+.inicio {
+  background-image: url('img/renderindex.png');
   background-size: cover;
   background-position: center;
   height: 80vh;
   position: relative;
 }
 
-.hero::before {
+.inicio::before {
   content: "";
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.hero-content {
+.inicio-content {
   position: relative;
   z-index: 1;
   padding: 100px 50px;
   max-width: 600px;
 }
 
-.hero-content h2 {
+.inicio-content h2 {
   font-size: 40px;
   margin-bottom: 20px;
 }
 
-.hero-content p {
+.inicio-content p {
   font-size: 18px;
   margin-bottom: 30px;
 }
