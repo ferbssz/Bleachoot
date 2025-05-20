@@ -63,6 +63,14 @@ body {
   position: relative;
 }
 
+.quiz {
+  background-image: url('img/rukiabankai.png');
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  position: relative;
+}
+
 .inicio::before {
   content: "";
   position: absolute;
@@ -83,6 +91,23 @@ body {
 }
 
 .inicio-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.quiz-content {
+  position: relative;
+  z-index: 1;
+  padding: 100px 50px;
+  max-width: 600px;
+}
+
+.quiz-content h2 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.quiz-content p {
   font-size: 18px;
   margin-bottom: 30px;
 }
