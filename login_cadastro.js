@@ -37,11 +37,6 @@ function ValidarLogin() {
     var ipt_email = document.getElementById('inputEmail').value;
     var ipt_senha = document.getElementById('inputSenha').value;
 
-    for (let index = 0; index >= tentativas; index++) {
-        EsqSenha.innerHTML = 'Esqueceu a senha?'
-        break
-    }
-
     // Verificando se o usuario está cadastrado
     for (let i = 0; i < DadosUsuario.length; i++) {
         if (ipt_email == DadosUsuario[i].emailUsuario && ipt_senha == DadosUsuario[i].senhaUsuario) {
