@@ -15,6 +15,7 @@ main {
     align-items: center;
     justify-content: space-evenly;
     flex-direction: column;
+    position: relative;
 }
 
 #imgRukia {
@@ -41,11 +42,28 @@ main {
     width: 38%;
     border: 1px solid;
     padding: 2vw 0;
-    background-color:rgba(255, 255, 255, 0.1);
+    background-color: black;
     /* display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column; */
+    position: relative;
+    z-index: 2;
+}
+
+#charactersBackgroundImage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 75vh;
+    background-image: url('img/login-cadastro.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+    pointer-events: none;
 }
 
 #containerSubControlForm {
@@ -82,7 +100,8 @@ main {
     background: #2E2F2F;
 }
 
-#formLogin, #formCadastro {
+#formLogin,
+#formCadastro {
     width: 100%;
     height: 50vh;
     display: flex;
@@ -95,7 +114,8 @@ main {
     height: 60vh;
 }
 
-.labelInput, .inputStyle {
+.labelInput,
+.inputStyle {
     width: 80%;
     height: 2.1vw;
 }
@@ -122,7 +142,8 @@ main {
     background: #141515;
 }
 
-.containerInputLogin, .containerInputCadastro {
+.containerInputLogin,
+.containerInputCadastro {
     width: 100%;
     display: flex;
     flex-direction: column;
