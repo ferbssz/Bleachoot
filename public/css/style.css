@@ -56,7 +56,7 @@ body {
 }
 
 .inicio {
-  background-image: url('img/renderindex.png');
+  background-image: url('../assets/img/renderindex.png');
   background-size: cover;
   background-position: center;
   height: 80vh;
@@ -64,7 +64,7 @@ body {
 }
 
 .quiz {
-  background-image: url('img/rukiabankai.png');
+  background-image: url('../assets/img/rukiabankai.png');
   background-size: cover;
   background-position: center;
   height: 80vh;

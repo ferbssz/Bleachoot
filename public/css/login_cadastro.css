@@ -58,7 +58,7 @@ main {
     transform: translate(-50%, -50%);
     width: 110%;
     height: 75vh;
-    background-image: url('img/login-cadastro.png');
+    background-image: url('../assets/img/login-cadastro.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
