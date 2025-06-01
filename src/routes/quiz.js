@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../database/config');
-const mysql = require('mysql2'); // necessário para usar escape()
+const mysql = require('mysql2');
 
 router.post('/salvar', (req, res) => {
     const { idUsuario, pontuacao, totalQuestoes } = req.body;

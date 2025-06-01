@@ -1,10 +1,10 @@
-const database = require("../database/config.js"); // ajuste o caminho se necessário
+const database = require("../database/config.js");
 var express = require("express");
 var router = express.Router();
 
 var usuarioController = require("../controllers/usuarioController");
 
-//Recebendo os dados do html e direcionando para a função cadastrar de usuarioController.js
+
 router.post("/cadastrar", function (req, res) {
     const { nome, email, senha } = req.body;
 
