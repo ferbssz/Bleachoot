@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bleachoot</title>
+    <link rel="stylesheet" type="text/css" href="./css/stylequiz.css" />
+    <link rel="icon" href="./assets/img/icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<header class="navbar">
+    <a href="#"><img src="./assets/img/bleachootlogo.png" class="logo"></a>
+    <nav class="nav-links">
+        <a href="index.html#inicio">INÍCIO</a>
+        <a href="index.html#sobre">SOBRE</a>
+        <a href="index.html#arcos">ARCOS</a>
+        <a href="index.html#OST">OST</a>
+        <a href="index.html#quiz">QUIZ</a>
+        <a href="index.html#extra">EXTRA</a>
+        <a href="index.html#contato">CONTATO</a>
+        <a href="index.html#login_cadastro.html" id="logado" class="nav-item-auth"><button
+                class="login-btn">LOGIN</button></a>
+    </nav>
+</header>
+
+<body onload="onloadEsconder()">
+    <h2>Ouça as openings de Bleach, enquanto faz o quiz.</h2>
+    <div id="bleachPlayer" class="player-container">
+        <div class="player-controls">
+            <select id="selectOpening">
+                <option value="op1">Opening 1 – *Asterisk* (Orange Range)</option>
+                <option value="op2">Opening 2 – *D-tecnoLife* (UVERworld)</option>
+                <option value="op3">Opening 3 – *Ichirin no Hana* (High and Mighty Color)</option>
+                <option value="op4">Opening 4 – *Tonight, Tonight, Tonight* (Beat Crusaders)</option>
+                <option value="op5">Opening 5 – *Rolling Star* (YUI)</option>
+                <option value="op6">Opening 6 – *ALONES* (Aqua Timez)</option>
+                <option value="op7">Opening 7 – *After Dark* (Asian Kung-Fu Generation)</option>
+                <option value="op8">Opening 8 – *CHU-BURA* (Kelun)</option>
+                <option value="op9">Opening 9 – *Velonica* (Aqua Timez)</option>
+                <option value="op10">Opening 10 – *Shōjo S* (Scandal)</option>
+                <option value="op11">Opening 11 – *Anima Rossa* (Porno Graffitti)</option>
+                <option value="op12">Opening 12 – *chAngE* (Miwa)</option>
+                <option value="op13">Opening 13 – *Ranbu no Melody* (SID)</option>
+                <option value="op14">Opening 14 – *BLUE* (ViViD)</option>
+                <option value="op15">Opening 15 – *Harukaze* (Scandal)</option>
+                <option value="op16">Opening 16 – *Strike Back* (BACK-ON)</option>
+                <option value="op17">Opening 17 – *Scar* (Kitani Tatsuya) [TYBW Parte 1]</option>
+                <option value="op18">Opening 18 – *STARS* (w.o.d.) [TYBW Parte 2]</option>
+
+            </select>
+            <button onclick="tocarOpening()">▶️</button>
+            <button onclick="pausarOpening()">⏸️</button>
+            <button onclick="tocarAleatorio()">🔀</button>
+            <button id="btnLoop" onclick="alternarLoop()">🔁 Loop</button>
+            <input type="range" min="0" max="1" step="0.01" value="1" onchange="ajustarVolume(this.value)">
+        </div>
+        <audio id="audioPlayer" style="display: none;"></audio>
+    </div>
+
+    <center>
+        <div id="quizWrapper" class="quiz-wrapper">
+            <div id="pontuacaoEJogo">
+                <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
+
+                <div id="pontuacao" class="flex-colunar width-fit-content border-primary">
+                    <div id="pontuacaoDuranteJogo" class="flex-colunar padding-8">
+                        <span class="width-fit-content">Quantidade de acertos: <span id="spanCertas"></span></span>
+                        <span class="width-fit-content">Quantidade de erros: <span id="spanErradas"></span></span>
+                    </div>
+                    <div id="pontuacaoFinalJogo" class="flex-colunar padding-8">
+                        <span id="pontuacaoFinal" class="width-fit-content">Pontuação Final:
+                            <span id="spanPontuacaoFinal">***</span>
+                        </span>
+                        <span id="msgFinal" class="width-fit-content">***</span>
+                    </div>
+                </div>
+
+                <div id="jogo" class="quiz-container">
+                    <div class="quiz-conteudo">
+                        <div id="infoQuestao" class="padding-8">
+                            <span>Questão atual: <span id="spanNumeroDaQuestaoAtual"></span> de <span
+                                    id="qtdQuestoes"></span> questões.</span>
+                        </div>
+
+                        <div id="perguntaDaQuestaoAtual" class="padding-8">
+                            <span id="spanQuestaoExibida" class="text-bold"></span>
+                        </div>
+
+                        <div id="infoAlternativas" class="padding-8">
+                            <span><em>Escolha uma opção dentre as abaixo:</em></span>
+                        </div>
+
+                        <div id="opcoes" class="padding-8">
+                            <span>
+                                <input type="radio" id="primeiraOpcao" name="option" class="radio"
+                                    value="alternativaA" />
+                                <label for="primeiraOpcao" class="option" id="labelOpcaoUm"></label>
+                            </span><br>
+                            <span>
+                                <input type="radio" id="segundaOpcao" name="option" class="radio"
+                                    value="alternativaB" />
+                                <label for="segundaOpcao" class="option" id="labelOpcaoDois"></label>
+                            </span><br>
+                            <span>
+                                <input type="radio" id="terceiraOpcao" name="option" class="radio"
+                                    value="alternativaC" />
+                                <label for="terceiraOpcao" class="option" id="labelOpcaoTres"></label>
+                            </span><br>
+                            <span>
+                                <input type="radio" id="quartaOpcao" name="option" class="radio" value="alternativaD" />
+                                <label for="quartaOpcao" class="option" id="labelOpcaoQuatro"></label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="quiz-botoes">
+                        <button onclick="submeter()" id="btnSubmeter">Submeter resposta</button>
+                        <button onclick="avancar()" id="btnProx" disabled>Avançar para próxima questão</button>
+                        <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
+                    </div>
+                </div>
+            </div>
+            <div id="feedbackKon" style="display: none;">
+                <img id="imagemKon" src="" alt="Kon chibi" style="height: 150px;" />
+            </div>
+        </div>
+    </center>
+</body>
+
+</html>
+<script>
+    var listaDeQuestoes = [
+
+        {
+            "pergunta": "Qual é o nome do protagonista de Bleach?",
+            "alternativaA": "Renji Abarai",
+            "alternativaB": "Ichigo Kurosaki",
+            "alternativaC": "Byakuya Kuchiki",
+            "alternativaD": "Uryu Ishida",
+            "alternativaCorreta": "alternativaB"
+        },
+        {
+            "pergunta": "Qual é o tipo de poder principal que Ichigo Kurosaki adquire no início da série?",
+            "alternativaA": "Poderes de Quincy",
+            "alternativaB": "Poderes de Arrancar",
+            "alternativaC": "Poderes de Shinigami",
+            "alternativaD": "Poderes de Fullbringer",
+            "alternativaCorreta": "alternativaC"
+        },
+        {
+            "pergunta": "Quem é a Shinigami que concede poderes a Ichigo Kurosaki?",
+            "alternativaA": "Orihime Inoue",
+            "alternativaB": "Yoruichi Shihoin",
+            "alternativaC": "Rukia Kuchiki",
+            "alternativaD": "Nelliel Tu Odelschwanck",
+            "alternativaCorreta": "alternativaC"
+        },
+        {
+            "pergunta": "Qual é o nome da espada de Ichigo Kurosaki em sua forma Shikai?",
+            "alternativaA": "Senbonzakura",
+            "alternativaB": "Zangetsu",
+            "alternativaC": "Sode no Shirayuki",
+            "alternativaD": "Tensa Zangetsu",
+            "alternativaCorreta": "alternativaB"
+        },
+        {
+            "pergunta": "Qual é o nome do mundo onde vivem os Shinigamis e as almas que morreram?",
+            "alternativaA": "Hueco Mundo",
+            "alternativaB": "Soul Society",
+            "alternativaC": "Mundo Humano",
+            "alternativaD": "Seireitei",
+            "alternativaCorreta": "alternativaB"
+        },
+        {
+            "pergunta": "Qual é a organização de Shinigamis que protege a Soul Society?",
+            "alternativaA": "Espada",
+            "alternativaB": "Vizards",
+            "alternativaC": "Xcution",
+            "alternativaD": "Gotei 13",
+            "alternativaCorreta": "alternativaD"
+        },
+        {
+            "pergunta": "Quem é o principal antagonista do arco Soul Society?",
+            "alternativaA": "Gin Ichimaru",
+            "alternativaB": "Kenpachi Zaraki",
+            "alternativaC": "Sosuke Aizen",
+            "alternativaD": "Grimmjow Jaegerjaquez",
+            "alternativaCorreta": "alternativaC"
+        },
+        {
+            "pergunta": "Qual é a habilidade especial de Orihime Inoue?",
+            "alternativaA": "Cura através do Kido",
+            "alternativaB": "Invocar Hollows",
+            "alternativaC": "Rejeição de Eventos",
+            "alternativaD": "Controle de Reishi",
+            "alternativaCorreta": "alternativaC"
+        },
+        {
+            "pergunta": "Qual a raça de Uryu Ishida?",
+            "alternativaA": "Shinigami",
+            "alternativaB": "Hollow",
+            "alternativaC": "Quincy",
+            "alternativaD": "Fullbringer",
+            "alternativaCorreta": "alternativaC"
+        },
+        {
+            "pergunta": "Qual é o nome da técnica final de Ichigo Kurosaki que ele usa para derrotar Aizen no arco da Batalha de Karakura?",
+            "alternativaA": "Getsuga Tensho Final",
+            "alternativaB": "Gran Rey Cero",
+            "alternativaC": "Mugetsu",
+            "alternativaD": "Bankai: Daiguren Hyorinmaru",
+            "alternativaCorreta": "alternativaA"
+        }
+
+
+    ]
+
+    // variáveis globais    
+    let numeroDaQuestaoAtual = 0
+    let pontuacaoFinal = 0
+    let tentativaIncorreta = 0
+    let certas = 0
+    let erradas = 0
+    let quantidadeDeQuestoes = listaDeQuestoes.length
+    // let isUltima = numeroDaQuestaoAtual == quantidadeDeQuestoes-1 ? true : false
+
+    function onloadEsconder() {
+        document.getElementById('pontuacao').style.display = "none"
+        document.getElementById('jogo').style.display = "none"
+    }
+
+    function iniciarQuiz() {
+        document.getElementById('pontuacao').style.display = "flex"
+        document.getElementById('jogo').style.display = "flex"
+        document.getElementById('btnIniciarQuiz').style.display = "none"
+
+        document.getElementById('qtdQuestoes').innerHTML = quantidadeDeQuestoes
+
+        preencherHTMLcomQuestaoAtual(0)
+
+        btnSubmeter.disabled = false
+        btnProx.disabled = true
+        // btnConcluir.disabled = true
+        btnTentarNovamente.disabled = true
+    }
+
+    function preencherHTMLcomQuestaoAtual(index) {
+        habilitarAlternativas(true)
+        var questaoAtual = listaDeQuestoes[index]
+        numeroDaQuestaoAtual = index
+        console.log("questaoAtual")
+        console.log(questaoAtual)
+        document.getElementById("spanNumeroDaQuestaoAtual").innerHTML = Number(index) + 1 // ajustando porque o index começa em 0
+        document.getElementById("spanQuestaoExibida").innerHTML = questaoAtual.pergunta;
+        document.getElementById("labelOpcaoUm").innerHTML = questaoAtual.alternativaA;
+        document.getElementById("labelOpcaoDois").innerHTML = questaoAtual.alternativaB;
+        document.getElementById("labelOpcaoTres").innerHTML = questaoAtual.alternativaC;
+        document.getElementById("labelOpcaoQuatro").innerHTML = questaoAtual.alternativaD;
+    }
+
+    function submeter() {
+        var options = document.getElementsByName("option"); // recupera alternativas no html
+
+        let hasChecked = false
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].checked) {
+                hasChecked = true
+                break
+            }
+        }
+
+        if (!hasChecked) {
+            alert("Não há alternativas escolhidas. Escolha uma opção.")
+        } else {
+            btnSubmeter.disabled = true
+            btnProx.disabled = false
+
+            habilitarAlternativas(false)
+
+            checarResposta()
+        }
+    }
+
+    function habilitarAlternativas(trueOrFalse) {
+        let opcaoEscolhida = trueOrFalse ? false : true
+
+        primeiraOpcao.disabled = opcaoEscolhida
+        segundaOpcao.disabled = opcaoEscolhida
+        terceiraOpcao.disabled = opcaoEscolhida
+        quartaOpcao.disabled = opcaoEscolhida
+
+    }
+
+    function avancar() {
+        btnProx.disabled = true
+        btnSubmeter.disabled = false
+
+        desmarcarRadioButtons()
+
+        if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+            preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual)
+        } else if (numeroDaQuestaoAtual == quantidadeDeQuestoes - 1) {
+            alert("Atenção... a próxima é a ultima questão!")
+            preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual)
+        } else {
+            finalizarJogo()
+        }
+        limparCoresBackgroundOpcoes()
+        document.getElementById("feedbackKon").style.display = "none";
+    }
+
+    function tentarNovamente() {
+        // atualiza a página
+        window.location.reload()
+    }
+
+    function checarResposta() {
+        var questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual] // questão atual 
+        var respostaQuestaoAtual = questaoAtual.alternativaCorreta // qual é a resposta correta da questão atual
+
+        var options = document.getElementsByName("option"); // recupera alternativas no html
+
+        let alternativaCorreta = null // variável para armazenar a alternativa correta
+
+        options.forEach((option) => {
+            if (option.value === respostaQuestaoAtual) {
+                console.log("alternativaCorreta está no componente: " + alternativaCorreta)
+                alternativaCorreta = option.labels[0].id
+            }
+        })
+
+        // verifica se resposta assinalada é correta
+        options.forEach((option) => {
+            if (option.checked === true && option.value === respostaQuestaoAtual) {
+                // Acertou
+                document.getElementById(alternativaCorreta).classList.add("text-success-with-bg");
+                pontuacaoFinal++;
+                certas++;
+                document.getElementById("spanCertas").innerHTML = certas;
+                numeroDaQuestaoAtual++;
+
+                document.getElementById("imagemKon").src = "./assets/img/certa.png";
+                document.getElementById("feedbackKon").style.display = "block";
+            } else if (option.checked === true) {
+                // Errou
+                document.getElementById(option.id).classList.add("text-danger-with-bg");
+
+                erradas++;
+                document.getElementById("spanErradas").innerHTML = erradas;
+
+                document.getElementById("imagemKon").src = "./assets/img/errada.png";
+                document.getElementById("feedbackKon").style.display = "block";
+                numeroDaQuestaoAtual++;
+            }
+
+        })
+    }
+
+    function limparCoresBackgroundOpcoes() {
+        var options = document.getElementsByName("option");
+        options.forEach((option) => {
+            document.getElementById(option.labels[0].id).classList.remove("text-danger-with-bg")
+            document.getElementById(option.labels[0].id).classList.remove("text-success-with-bg")
+        })
+    }
+
+    function desmarcarRadioButtons() {
+        var options = document.getElementsByName("option");
+        for (let i = 0; i < options.length; i++) {
+            options[i].checked = false;
+        }
+    }
+
+    function finalizarJogo() {
+        let textoParaMensagemFinal = null
+        let classComCoresParaMensagemFinal = null
+        var porcentagemFinalDeAcertos = pontuacaoFinal / quantidadeDeQuestoes
+
+        if (porcentagemFinalDeAcertos <= 0.3) {
+            textoParaMensagemFinal = "Parece que você não estudou..."
+            classComCoresParaMensagemFinal = "text-danger-with-bg"
+        }
+        else if (porcentagemFinalDeAcertos > 0.3 && porcentagemFinalDeAcertos < 0.9) {
+            textoParaMensagemFinal = "Pode melhorar na próxima, hein!"
+            classComComCoresParaMensagemFinal = "text-warning-with-bg"
+        }
+        else if (porcentagemFinalDeAcertos >= 0.9) {
+            textoParaMensagemFinal = "Uau, parabéns!"
+            classComCoresParaMensagemFinal = "text-success-with-bg"
+        }
+
+        textoParaMensagemFinal += "<br> Você acertou " + Math.round((porcentagemFinalDeAcertos) * 100) + "% das questões."
+
+
+        document.getElementById('msgFinal').innerHTML = textoParaMensagemFinal
+        document.getElementById('msgFinal').classList.add(classComCoresParaMensagemFinal)
+        document.getElementById('spanPontuacaoFinal').innerHTML = pontuacaoFinal
+
+        document.getElementById('jogo').classList.add("text-new-gray")
+
+        btnProx.disabled = true
+        btnSubmeter.disabled = true
+        btnTentarNovamente.disabled = false // Isso já existia
+
+        // --- Adicione ESTAS DUAS LINHAS aqui para sinalizar a conclusão do quiz e redirecionar ---
+        sessionStorage.setItem('quizConcluido', 'true'); // Sinaliza que o quiz foi concluído
+        // Opcional: Você pode armazenar a pontuação aqui também se quiser exibi-la na dashboard mais tarde
+        // sessionStorage.setItem('ultimaPontuacaoQuiz', pontuacaoFinal); 
+        fetch("http://localhost:3333/quiz/salvar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuario: sessionStorage.getItem("idUsuario"), // ou null se não tiver login
+                pontuacao: pontuacaoFinal,
+                totalQuestoes: quantidadeDeQuestoes
+            })
+        })
+            .then(res => {
+                if (res.ok) {
+                    console.log("Resultado salvo com sucesso");
+                } else {
+                    console.error("Erro ao salvar resultado");
+                }
+            })
+            .catch(erro => {
+                console.error("Erro de comunicação com o servidor:", erro);
+            });
+
+        window.location.href = 'poslogin.html'; // Redireciona para a página poslogin.html
+    }
+    var openings = [
+        { id: "op1", url: "./assets/bleach-ops/bleach op1.mp3" },
+        { id: "op2", url: "./assets/bleach-ops/bleach op2.mp3" },
+        { id: "op3", url: "./assets/bleach-ops/bleach op3.mp3" },
+        { id: "op4", url: "./assets/bleach-ops/bleach op4.mp3" },
+        { id: "op5", url: "./assets/bleach-ops/bleach op5.mp3" },
+        { id: "op6", url: "./assets/bleach-ops/bleach op6.mp3" },
+        { id: "op7", url: "./assets/bleach-ops/bleach op7.mp3" },
+        { id: "op8", url: "./assets/bleach-ops/bleach op8.mp3" },
+        { id: "op9", url: "./assets/bleach-ops/bleach op9.mp3" },
+        { id: "op10", url: "./assets/bleach-ops/bleach op10.mp3" },
+        { id: "op11", url: "./assets/bleach-ops/bleach op11.mp3" },
+        { id: "op12", url: "./assets/bleach-ops/bleach op12.mp3" },
+        { id: "op13", url: "./assets/bleach-ops/bleach op13.mp3" },
+        { id: "op14", url: "./assets/bleach-ops/bleach op14.mp3" },
+        { id: "op15", url: "./assets/bleach-ops/bleach op15.mp3" },
+        { id: "op16", url: "./assets/bleach-ops/bleach op16.mp3" },
+        { id: "op17", url: "./assets/bleach-ops/bleach op17.mp3" },
+        { id: "op18", url: "./assets/bleach-ops/bleach op18.mp3" }
+    ];
+
+    function tocarOpening() {
+        var selecionada = document.getElementById("selectOpening").value;
+        var audio = document.getElementById("audioPlayer");
+        var encontrada = openings.find(op => op.id === selecionada);
+        if (encontrada) {
+            audio.src = encontrada.url;
+            audio.play();
+        }
+    }
+
+
+    function pausarOpening() {
+        var audio = document.getElementById("audioPlayer");
+        audio.pause();
+    }
+
+    function ajustarVolume(valor) {
+        var audio = document.getElementById("audioPlayer");
+        audio.volume = valor;
+    }
+
+    function tocarAleatorio() {
+        var aleatoria = openings[Math.floor(Math.random() * openings.length)];
+        document.getElementById("selectOpening").value = aleatoria.id;
+        tocarOpening();
+    }
+    let loopAtivo = false;
+
+    function alternarLoop() {
+        var audio = document.getElementById("audioPlayer");
+        loopAtivo = !loopAtivo;
+        audio.loop = loopAtivo;
+
+        var btn = document.getElementById("btnLoop");
+        if (loopAtivo) {
+            btn.style.backgroundColor = "#ff6600";
+            btn.style.color = "#000";
+            btn.innerText = "🔁 Loop ON";
+        } else {
+            btn.style.backgroundColor = "transparent";
+            btn.style.color = "#ff6600";
+            btn.innerText = "🔁 Loop OFF";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var nomeUsuario = sessionStorage.getItem('nomeUsuario');
+        var logadoElement = document.getElementById('logado');
+        var navLinksContainer = document.querySelector('.nav-links');
+
+
+        function renderlogados() {
+
+            var existingUserLink = document.getElementById('userProfileLink');
+            var existingLogoutLink = document.getElementById('logoutLink');
+            var existingLoginBtn = document.getElementById('logado');
+
+            if (existingUserLink) existingUserLink.remove();
+            if (existingLogoutLink) existingLogoutLink.remove();
+            if (existingLoginBtn) existingLoginBtn.remove();
+
+            if (nomeUsuario) {
+
+
+                var userProfileLink = document.createElement('a');
+                userProfileLink.href = 'poslogin.html';
+                userProfileLink.id = 'userProfileLink';
+                userProfileLink.title = nomeUsuario;
+                userProfileLink.innerHTML = '<i class="fas fa-user"></i>';
+                userProfileLink.classList.add('nav-link');
+                navLinksContainer.appendChild(userProfileLink);
+
+
+                var logoutLink = document.createElement('a');
+                logoutLink.href = '#';
+                logoutLink.id = 'logoutLink';
+                logoutLink.textContent = 'SAIR';
+                logoutLink.classList.add('nav-link');
+                navLinksContainer.appendChild(logoutLink);
+
+                logoutLink.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    sessionStorage.removeItem('nomeUsuario');
+
+                    console.log('Sessão do usuário limpa no sessionStorage.');
+
+                    renderlogados();
+
+                    window.location.href = 'index.html';
+                });
+
+            } else {
+
+                var loginLink = document.createElement('a');
+                loginLink.href = 'login_cadastro.html';
+                loginLink.id = 'logado';
+                loginLink.classList.add('nav-item-auth');
+                loginLink.innerHTML = '<button class="login-btn">LOGIN</button>';
+                navLinksContainer.appendChild(loginLink);
+                console.log('Botão LOGIN adicionado de volta.');
+            }
+        }
+
+        renderlogados();
+    });
+
+</script>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="./css/styledashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="icon" href="./assets/img/icon.ico" type="image/x-icon">
+</head>
+<header class="navbar">
+    <a href="index.html#"><img src="./assets/img/bleachootlogo.png" class="logo"></a>
+    <nav class="nav-links">
+        <a href="index.html#inicio">INÍCIO</a>
+        <a href="index.html#sobre">SOBRE</a>
+        <a href="index.html#arcos">ARCOS</a>
+        <a href="index.html#OST">OST</a>
+        <a href="index.html#quiz">QUIZ</a>
+        <a href="index.html#extra">EXTRA</a>
+        <a href="index.html#contato">CONTATO</a>
+        <a href="index.html#login_cadastro.html" id="logado" class="nav-item-auth"><button
+                class="login-btn">LOGIN</button></a>
+    </nav>
+</header>
+
+<body>
+    <div class="kpi-container">
+        <div class="kpi-card">
+            <h3>Pontuação</h3>
+            <p id="kpiScore">--</p>
+        </div>
+        <div class="kpi-card">
+            <h3>Porcentagem de Acertos</h3>
+            <p id="kpiAccuracy">--</p>
+        </div>
+        <div class="kpi-card">
+            <h3>Acertos e Erros</h3>
+            <p><span id="kpiRight">--</span> Acertos / <span id="kpiWrong">--</span> Erros</p>
+        </div>
+    </div>
+    <div class="grafico-container">
+        <canvas id="graficoEvolucao" style="width: 100%; height: 300px; background-color: #1c1c1c;"></canvas>
+    </div>
+</body>
+
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var nomeUsuario = sessionStorage.getItem('nomeUsuario');
+        var logadoElement = document.getElementById('logado');
+        var navLinksContainer = document.querySelector('.nav-links');
+
+
+        function renderlogados() {
+
+            var existingUserLink = document.getElementById('userProfileLink');
+            var existingLogoutLink = document.getElementById('logoutLink');
+            var existingLoginBtn = document.getElementById('logado');
+
+            if (existingUserLink) existingUserLink.remove();
+            if (existingLogoutLink) existingLogoutLink.remove();
+            if (existingLoginBtn) existingLoginBtn.remove();
+
+            if (nomeUsuario) {
+
+
+                var userProfileLink = document.createElement('a');
+                userProfileLink.href = 'poslogin.html';
+                userProfileLink.id = 'userProfileLink';
+                userProfileLink.title = nomeUsuario;
+                userProfileLink.innerHTML = '<i class="fas fa-user"></i>';
+                userProfileLink.classList.add('nav-link');
+                navLinksContainer.appendChild(userProfileLink);
+
+
+                var logoutLink = document.createElement('a');
+                logoutLink.href = '#';
+                logoutLink.id = 'logoutLink';
+                logoutLink.textContent = 'SAIR';
+                logoutLink.classList.add('nav-link');
+                navLinksContainer.appendChild(logoutLink);
+
+                logoutLink.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    sessionStorage.removeItem('nomeUsuario');
+
+                    console.log('Sessão do usuário limpa no sessionStorage.');
+
+                    renderlogados();
+
+                    window.location.href = 'index.html';
+                });
+
+            } else {
+
+                var loginLink = document.createElement('a');
+                loginLink.href = 'login_cadastro.html';
+                loginLink.id = 'logado';
+                loginLink.classList.add('nav-item-auth');
+                loginLink.innerHTML = '<button class="login-btn">LOGIN</button>';
+                navLinksContainer.appendChild(loginLink);
+                console.log('Botão LOGIN adicionado de volta.');
+            }
+        }
+
+        renderlogados();
+    });
+
+    var idUsuario = sessionStorage.getItem("idUsuario");
+
+    if (!idUsuario) {
+        alert("Usuário não logado.");
+        window.location.href = "login.html";
+    }
+
+    fetch(`http://localhost:3333/quiz/todos/${idUsuario}`)
+        .then(res => res.json())
+        .then(data => {
+            fetch(`http://localhost:3333/quiz/todos/${idUsuario}`)
+                .then(res => res.json())
+                .then(data => {
+                    var labels = data.map(item => item.dataRegistro.replace('T', ' ').substring(0, 16));
+                    var scores = data.map(item => item.pontuacao);
+
+                    var ultimo = data[data.length - 1];
+                    document.getElementById("kpiScore").innerText = `${ultimo.pontuacao}/${ultimo.totalQuestoes}`;
+                    document.getElementById("kpiAccuracy").innerText = `${Math.round((ultimo.pontuacao / ultimo.totalQuestoes) * 100)}%`;
+                    document.getElementById("kpiRight").innerText = ultimo.pontuacao;
+                    document.getElementById("kpiWrong").innerText = ultimo.totalQuestoes - ultimo.pontuacao;
+
+
+                    new Chart(document.getElementById('graficoEvolucao'), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Pontuação',
+                                data: scores,
+                                backgroundColor: '#ff6600',
+                                borderColor: '#ff6600',
+                                tension: 0.2,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 10,
+                                    ticks: {
+                                        stepSize: 1,
+                                        color: 'white' 
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Pontuação',
+                                        color: 'white'
+                                    }
+                                },
+                                x: {
+                                    ticks: {
+                                        color: 'white'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Data',
+                                        color: 'white'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: 'white'
+                                    }
+                                }
+                            }
+                        }
+
+                    });
+                });
+        });
+</script>

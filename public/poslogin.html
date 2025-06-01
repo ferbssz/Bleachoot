@@ -10,7 +10,6 @@
   <link rel="icon" href="./assets/img/icon.ico" type="image/x-icon">
 </head>
 <body>
-      <!-- Navbar -->
   <header class="navbar">
     <a href="index.html#"><img src="./assets/img/bleachootlogo.png" class="logo"></a>
     <nav class="nav-links">
@@ -20,13 +19,88 @@
       <a href="index.html#OST">OST</a>
       <a href="index.html#quiz">QUIZ</a>
       <a href="index.html#contato">CONTATO</a>
-      <a href="login_cadastro.html"><i class="fa-solid fa-user"></i></a>
+      <a href="#" id="userProfileLink" class="nav-link"><i class="fa-solid fa-user" style="font-size: 1.5em;"></i></a>
+      <a href="#" id="logoutLink" class="nav-link">SAIR</a>
     </nav>
   </header>
   <center>
-    <h2>Bem-vindo, nome!</h2><br><br>
-    <div id="quiz" class="div_quiz"></div>
-    <a href="index.html"> <div id="voltar" class="div_inicio"></div> </a>
+    <h2>Bem-vindo, <span id="spanNomeUsuario">nome!</span></h2><br><br>
+    <a href="quiz.html"><div id="quiz" class="div_quiz"></div></a><br><br>
+    <a href="index.html"> <div id="voltar" class="div_inicio"></div> </a><br><br>
+    <a href="dashboard.html" id="exibirResultadosBtn" class="nav-link" style="display: none;"> <div id="resultado" class="div_resultado"></div> </a>
   </center>
 </body>
 </html>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        var nomeDoUsuarioLogado = sessionStorage.getItem('nomeUsuario'); 
+        var spanElemento = document.getElementById('spanNomeUsuario');
+
+
+        if (nomeDoUsuarioLogado && spanElemento) {
+            spanElemento.textContent = nomeDoUsuarioLogado;
+        } else {
+            console.log("Nome do usuário não encontrado no sessionStorage. Redirecionando.");
+            window.location.href = 'index.html'; 
+            return;
+        }
+
+        var logoutLink = document.getElementById('logoutLink'); 
+        if (logoutLink) { 
+            logoutLink.addEventListener('click', function(e) { 
+                e.preventDefault(); 
+
+                sessionStorage.removeItem('nomeUsuario');
+
+                sessionStorage.removeItem('quizConcluido'); 
+
+                console.log('Sessão do usuário limpa no sessionStorage na página pós-login.'); 
+                window.location.href = 'index.html'; 
+            });
+        }
+
+
+        var userProfileLink = document.getElementById('userProfileLink');
+        if (userProfileLink && nomeDoUsuarioLogado) {
+            userProfileLink.title = nomeDoUsuarioLogado; 
+        }
+
+
+        var exibirResultadosBtn = document.getElementById('exibirResultadosBtn'); 
+        if (sessionStorage.getItem('quizConcluido') === 'true') {
+            exibirResultadosBtn.style.display = 'block'; 
+        } else {
+            exibirResultadosBtn.style.display = 'none'; 
+        }
+    });
+
+        window.onload = () => {
+        verificarSeUsuarioFezQuiz();
+    }
+
+    function verificarSeUsuarioFezQuiz() {
+    var idUsuario = sessionStorage.getItem("idUsuario");
+
+    if (!idUsuario) return;
+
+    fetch(`http://localhost:3333/quiz/resultado/${idUsuario}`)
+        .then(res => {
+            if (!res.ok) {
+
+                return null;
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (data) {
+
+                document.getElementById("exibirResultadosBtn").style.display = "block";
+            }
+        })
+        .catch(err => {
+            console.error("Erro ao verificar resultado do quiz:", err);
+        });
+}
+
+
+</script>

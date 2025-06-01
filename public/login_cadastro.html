@@ -61,7 +61,7 @@
                     <label for="inputConfirmarSenha" class="labelInput">Confirme sua senha:</label>
                     <input id="inputConfirmarSenha" class="inputStyle" type="password" placeholder="Repita sua senha">
                 </div>
-                <button class="btnForm" id="btnCadastrar" onclick="CadastrarUsuario()">Cadastrar</button>
+                <button class="btnForm" id="btnCadastrar" onclick="Cadastrar()">Cadastrar</button>
             </div>
         </div>
         <span id="spanCopy">© 2025 Bleachoot. Todos os direitos reservados.</span>
@@ -105,9 +105,9 @@
                 body: JSON.stringify({
                     // crie um atributo que recebe o valor recuperado aqui
                     // Agora vá para o arquivo routes/usuario.js
-                    nomeServer: nomeVar,
-                    emailServer: emailVar,
-                    senhaServer: senhaVar,
+                    nome: nomeVar,
+                    email: emailVar,
+                    senha: senhaVar,
                 }),
             })
                 .then(async function (resposta) {
@@ -116,7 +116,7 @@
                     if (resposta.ok) { //Status == 200 'ok'
                         alert('Cadastro efetuado');
 
-                        window.location = "../../Pages/Login/login.html";
+                        window.location = "poslogin.html";
 
 
                     } else {

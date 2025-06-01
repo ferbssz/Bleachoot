@@ -11,7 +11,6 @@
 </head>
 
 <body>
-  <!-- Navbar -->
   <header class="navbar">
     <a href="#"><img src="./assets/img/bleachootlogo.png" class="logo"></a>
     <nav class="nav-links">
@@ -20,12 +19,12 @@
       <a href="#arcos">ARCOS</a>
       <a href="#OST">OST</a>
       <a href="#quiz">QUIZ</a>
+      <a href="#extra">EXTRA</a>
       <a href="#contato">CONTATO</a>
-      <a href="login_cadastro.html"><button class="login-btn">LOGIN</button></a>
+      <a href="login_cadastro.html" id="logado" class="nav-item-auth"><button class="login-btn">LOGIN</button></a>
     </nav>
   </header>
 
-  <!-- Inicio -->
   <section class="inicio" id="inicio">
     <div class="inicio-content">
       <h2>O PODER DOS SHINIGAMIS</h2>
@@ -34,7 +33,6 @@
     </div>
   </section>
 
-  <!-- Sobre -->
   <section class="sobre" id="sobre">
     <div class="container">
       <h3>SOBRE</h3>
@@ -51,7 +49,6 @@
     </div>
   </section>
 
-  <!-- Arcos -->
   <section class="arcos" id="arcos">
     <h3>ARCOS</h3>
     <div class="arco-cards">
@@ -93,7 +90,6 @@
     </div>
   </section>
 
-  <!-- OST -->
   <section class="sobre" id="OST">
     <div class="container">
       <h3>Original SoundTrack</h3>
@@ -109,16 +105,22 @@
     </div>
   </section>
 
-  <!-- Quiz -->
   <section class="quiz" id="quiz">
     <div class="quiz-content">
       <h2>Quer testar seu conhecimento sobre Bleach?</h2>
       <p>Veja nosso quiz, prove o seu valor shinigami.</p>
-      <a href="login_cadastro.html"><button class="explore-btn">REGISTRO</button></a>
+      <a href="login_cadastro.html" id="botaoQuizRegistro"><button class="explore-btn">REGISTRO</button></a>
     </div>
   </section>
 
-  <!-- Contato -->
+  <section class="sobre" id="extra">
+    <h2>Quanto tempo levaria para assistir Bleach?</h2>
+    <p>Considere episódios de 24 minutos.</p>
+    <button onclick="calcularTempo(true)">Assistindo com fillers</button>
+    <button onclick="calcularTempo(false)">Assistindo sem fillers</button>
+    <div id="resultadoTempo" style="margin-top: 20px; font-size: 1.2rem;"></div>
+  </section>
+
   <section class="sobre" id="contato">
     <div class="container">
       <h3>Contato</h3>
@@ -131,7 +133,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     © 2025 Bleachoot. Todos os direitos reservados.
   </footer>
@@ -139,5 +140,97 @@
 
 </html>
 <script>
-  window.location.replace('#');
+  document.addEventListener('DOMContentLoaded', function () {
+    var nomeUsuario = sessionStorage.getItem('nomeUsuario');
+    var logadoElement = document.getElementById('logado');
+    var navLinksContainer = document.querySelector('.nav-links');
+
+
+    function renderlogados() {
+
+      var existingUserLink = document.getElementById('userProfileLink');
+      var existingLogoutLink = document.getElementById('logoutLink');
+      var existingLoginBtn = document.getElementById('logado');
+
+      if (existingUserLink) existingUserLink.remove();
+      if (existingLogoutLink) existingLogoutLink.remove();
+      if (existingLoginBtn) existingLoginBtn.remove();
+
+      if (nomeUsuario) {
+
+
+        var userProfileLink = document.createElement('a');
+        userProfileLink.href = 'poslogin.html';
+        userProfileLink.id = 'userProfileLink';
+        userProfileLink.title = nomeUsuario;
+        userProfileLink.innerHTML = '<i class="fas fa-user"></i>';
+        userProfileLink.classList.add('nav-link');
+        navLinksContainer.appendChild(userProfileLink);
+
+
+        var logoutLink = document.createElement('a');
+        logoutLink.href = '#';
+        logoutLink.id = 'logoutLink';
+        logoutLink.textContent = 'SAIR';
+        logoutLink.classList.add('nav-link');
+        navLinksContainer.appendChild(logoutLink);
+
+        logoutLink.addEventListener('click', function (event) {
+          event.preventDefault();
+          sessionStorage.removeItem('nomeUsuario');
+
+          console.log('Sessão do usuário limpa no sessionStorage.');
+
+          renderlogados();
+
+          window.location.href = 'index.html';
+        });
+
+      } else {
+
+        var loginLink = document.createElement('a');
+        loginLink.href = 'login_cadastro.html';
+        loginLink.id = 'logado';
+        loginLink.classList.add('nav-item-auth');
+        loginLink.innerHTML = '<button class="login-btn">LOGIN</button>';
+        navLinksContainer.appendChild(loginLink);
+        console.log('Botão LOGIN adicionado de volta.');
+      }
+    }
+
+    renderlogados();
+  });
+  function calcularTempo(incluirFillers) {
+    var episodiosClassicoComFillers = 366;
+    var episodiosClassicoSemFillers = 202;
+    var episodiosTYBW = 52;
+
+    var duracaoMinutos = 24;
+
+    var totalEpisodios = incluirFillers
+      ? episodiosClassicoComFillers + episodiosTYBW
+      : episodiosClassicoSemFillers + episodiosTYBW;
+
+    var tempoTotalMinutos = totalEpisodios * duracaoMinutos;
+
+    var dias = Math.floor(tempoTotalMinutos / (60 * 24));
+    var horas = Math.floor((tempoTotalMinutos % (60 * 24)) / 60);
+    var minutos = tempoTotalMinutos % 60;
+
+    document.getElementById("resultadoTempo").innerHTML =
+      `Você levaria aproximadamente <strong>${dias} dias, ${horas} horas e ${minutos} minutos</strong> para assistir Bleach ${incluirFillers ? "com" : "sem"} fillers, <br> incluindo todas as partes da Guerra dos Mil Anos até 2025.`;
+  }
+  window.onload = () => {
+    var idUsuario = sessionStorage.getItem("idUsuario");
+    var link = document.getElementById("botaoQuizRegistro");
+    var botao = link.querySelector("button");
+
+    if (idUsuario) {
+      link.href = "quiz.html";
+      botao.innerText = "INICIAR QUIZ";
+    } else {
+      link.href = "cadastro.html";
+      botao.innerText = "REGISTRO";
+    }
+  };
 </script>
