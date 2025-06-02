@@ -18,5 +18,18 @@ CREATE TABLE resultado_quiz (
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
+CREATE TABLE feedback_usuario (
+    idFeedback INT PRIMARY KEY AUTO_INCREMENT,
+    idUsuario INT NULL,
+    nomeRemetente VARCHAR(100) NULL,
+    emailRemetente VARCHAR(100) NOT NULL,
+    assunto VARCHAR(100) NULL,
+    mensagem TEXT NOT NULL,
+    dataEnvio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    statusFeedback ENUM('Pendente', 'Em Análise', 'Resolvido', 'Ignorado') DEFAULT 'Pendente',
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+);
+
 SELECT * FROM usuario;
 select * from resultado_quiz;
+select * from feedback_usuario;

@@ -233,6 +233,7 @@ body {
   background-size: contain;
 
 }
+
 .div_resultado {
   border-radius: 25px;
   background-image: url("../assets/img/botaoresultado.png");
@@ -242,4 +243,129 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
 
+}
+
+
+.feedback {
+  background-color: #000;
+  color: #f0f0f0;
+  padding: 80px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.feedback-content {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.feedback h2 {
+  font-size: 3em;
+  margin-bottom: 25px;
+  color: #ff4500;
+  font-weight: 600;
+}
+
+.feedback p {
+  font-size: 1.1em;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #b0b0b0;
+
+}
+
+
+#feedbackForm {
+  background-color: #242424;
+  padding: 40px;
+  border-radius: 8px;
+  text-align: left;
+  margin-top: 20px;
+  border: none;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #f0f0f0;
+  font-size: 1em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  width: 100%;
+  padding: 14px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #333;
+  color: #e0e0e0;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input[type="text"]::placeholder,
+.form-group input[type="email"]::placeholder,
+.form-group textarea::placeholder {
+  color: #888888;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+  border-color: #ff4500;
+  background-color: #383838;
+  outline: none;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+#feedbackForm button[type="submit"] {
+  background-color: #ff4500;
+  color: #ffffff;
+  padding: 15px 35px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.15em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: auto;
+  display: block;
+  margin: 35px auto 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#feedbackForm button[type="submit"]:hover {
+  background-color: #9b2900;
+  transform: translateY(-2px);
+}
+
+#feedbackMessage {
+  margin-top: 25px;
+  font-size: 1em;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 4px;
 }
