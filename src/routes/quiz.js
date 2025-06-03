@@ -58,30 +58,7 @@ router.get('/todos/:idUsuario', (req, res) => {
         SELECT pontuacao, totalQuestoes, dataRegistro 
         FROM resultado_quiz 
         WHERE idUsuario = ${idUsuario}
-        ORDER BY dataRegistro ASC;
-    `;
-
-    database.executar(instrucaoSql)
-        .then(resultados => {
-            if (resultados.length > 0) {
-                res.status(200).json(resultados);
-            } else {
-                res.status(404).json({ erro: "Nenhum resultado encontrado." });
-            }
-        })
-        .catch(erro => {
-            console.error(erro);
-            res.status(500).json({ erro: "Erro ao buscar resultados." });
-        });
-});
-router.get('/todos/:idUsuario', (req, res) => {
-    const idUsuario = req.params.idUsuario;
-
-    const instrucaoSql = `
-        SELECT pontuacao, totalQuestoes, dataRegistro 
-        FROM resultado_quiz 
-        WHERE idUsuario = ${idUsuario}
-        ORDER BY dataRegistro ASC;
+        ORDER BY dataRegistro DESC;
     `;
 
     database.executar(instrucaoSql)
