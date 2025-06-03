@@ -1,18 +1,15 @@
-// routes/feedback.js
 const express = require('express');
 const router = express.Router();
-const database = require('../database/config'); // Certifique-se de que o caminho para seu config.js está correto
+const database = require('../database/config');
 
 router.post('/enviar', (req, res) => {
     const { idUsuario, nomeRemetente, emailRemetente, assunto, mensagem } = req.body;
 
-    // Validação básica dos campos obrigatórios
+
     if (!emailRemetente || !mensagem) {
         return res.status(400).json({ erro: "Email e mensagem são campos obrigatórios." });
     }
 
-    // SQL para inserir o feedback
-    // Usamos NULL para idUsuario e nomeRemetente se não forem fornecidos
     const instrucaoSql = `
         INSERT INTO feedback_usuario (idUsuario, nomeRemetente, emailRemetente, assunto, mensagem)
         VALUES (${idUsuario ? idUsuario : 'NULL'}, 
