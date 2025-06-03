@@ -114,33 +114,34 @@
     </div>
   </section>
 
-<section class="feedback" id="feedback">
+  <section class="feedback" id="feedback">
     <div class="feedback-content">
-        <h2>Feedback</h2>
-        <p>Encontrou um Hollow em nosso site? Envie-nos uma mensagem!</p>
+      <h2>Feedback</h2>
+      <p>Encontrou um Hollow em nosso site? Envie-nos uma mensagem!</p>
 
-        <form id="feedbackForm" onsubmit="return enviarFeedback(event)">
-            <div class="form-group">
-                <label for="nomeFeedback">Seu Nome (Opcional):</label>
-                <input type="text" id="nomeFeedback" name="nomeFeedback" placeholder="Seu nome">
-            </div>
-            <div class="form-group">
-                <label for="emailFeedback">Seu E-mail: <span style="color: red;">*</span></label>
-                <input type="email" id="emailFeedback" name="emailFeedback" placeholder="seu.email@exemplo.com" required>
-            </div>
-            <div class="form-group">
-                <label for="assuntoFeedback">Assunto (Opcional):</label>
-                <input type="text" id="assuntoFeedback" name="assuntoFeedback" placeholder="Sugestão, Dúvida, Bug, etc.">
-            </div>
-            <div class="form-group">
-                <label for="mensagemFeedback">Sua Mensagem: <span style="color: red;">*</span></label>
-                <textarea id="mensagemFeedback" name="mensagemFeedback" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
-            </div>
-            <button type="submit">Enviar Feedback</button>
-            <p id="feedbackMessage" style="margin-top: 10px;"></p>
-        </form>
+      <form id="feedbackForm" onsubmit="return enviarFeedback(event)">
+        <div class="form-group">
+          <label for="nomeFeedback">Seu Nome (Opcional):</label>
+          <input type="text" id="nomeFeedback" name="nomeFeedback" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label for="emailFeedback">Seu E-mail: <span style="color: red;">*</span></label>
+          <input type="email" id="emailFeedback" name="emailFeedback" placeholder="seu.email@exemplo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="assuntoFeedback">Assunto (Opcional):</label>
+          <input type="text" id="assuntoFeedback" name="assuntoFeedback" placeholder="Sugestão, Dúvida, Bug, etc.">
+        </div>
+        <div class="form-group">
+          <label for="mensagemFeedback">Sua Mensagem: <span style="color: red;">*</span></label>
+          <textarea id="mensagemFeedback" name="mensagemFeedback" rows="5" placeholder="Escreva sua mensagem aqui..."
+            required></textarea>
+        </div>
+        <button type="submit">Enviar Feedback</button>
+        <p id="feedbackMessage" style="margin-top: 10px;"></p>
+      </form>
     </div>
-</section>
+  </section>
 
   <section class="sobre" id="extra">
     <h2>Quanto tempo levaria para assistir Bleach?</h2>
@@ -159,6 +160,8 @@
           style="color: #ff4500; font-size: 30px; padding: 1%;"></i></a>
       <a href="https://instagram.com/ferbssz" target="_blank"><i class="fa-brands fa-instagram"
           style="color: #ff4500; font-size: 30px;"></i></a>
+      <a href="" title="ferbssz" target="_blank"><i class="fa-brands fa-discord"
+          style="color: #ff4500; font-size: 30px; padding: 1%;"></i></a>
     </div>
   </section>
 
@@ -265,7 +268,7 @@
 
 
 
-function enviarFeedback(event) {
+  function enviarFeedback(event) {
     event.preventDefault();
 
     const idUsuario = sessionStorage.getItem('idUsuario');
@@ -275,47 +278,47 @@ function enviarFeedback(event) {
     const mensagemFeedback = document.getElementById('mensagemFeedback').value;
     const feedbackMessage = document.getElementById('feedbackMessage');
 
-   
+
     if (!emailFeedback || !mensagemFeedback) {
-        feedbackMessage.style.color = 'red';
-        feedbackMessage.innerText = 'Por favor, preencha o e-mail e a mensagem.';
-        return false;
+      feedbackMessage.style.color = 'red';
+      feedbackMessage.innerText = 'Por favor, preencha o e-mail e a mensagem.';
+      return false;
     }
 
-  
+
     const dadosFeedback = {
-        idUsuario: idUsuario || null, 
-        nomeRemetente: nomeFeedback || null, 
-        emailRemetente: emailFeedback,
-        assunto: assuntoFeedback || null, 
-        mensagem: mensagemFeedback
+      idUsuario: idUsuario || null,
+      nomeRemetente: nomeFeedback || null,
+      emailRemetente: emailFeedback,
+      assunto: assuntoFeedback || null,
+      mensagem: mensagemFeedback
     };
 
-    fetch('http://localhost:3333/feedback/enviar', { 
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dadosFeedback),
+    fetch('http://localhost:3333/feedback/enviar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dadosFeedback),
     })
-    .then(async response => {
+      .then(async response => {
         const data = await response.json();
         if (response.ok) {
-            feedbackMessage.style.color = 'green';
-            feedbackMessage.innerText = data.mensagem;
-            document.getElementById('feedbackForm').reset();
+          feedbackMessage.style.color = 'green';
+          feedbackMessage.innerText = data.mensagem;
+          document.getElementById('feedbackForm').reset();
         } else {
-            feedbackMessage.style.color = 'red';
-            feedbackMessage.innerText = data.erro || 'Erro ao enviar feedback.';
+          feedbackMessage.style.color = 'red';
+          feedbackMessage.innerText = data.erro || 'Erro ao enviar feedback.';
         }
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error('Erro de rede ao enviar feedback:', error);
         feedbackMessage.style.color = 'red';
         feedbackMessage.innerText = 'Erro de conexão. Tente novamente mais tarde.';
-    });
+      });
 
     return false;
-}
+  }
 
 </script>
