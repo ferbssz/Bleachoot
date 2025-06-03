@@ -34,7 +34,7 @@ router.get('/resultado/:idUsuario', (req, res) => {
         SELECT pontuacao, totalQuestoes, dataRegistro 
         FROM resultado_quiz 
         WHERE idUsuario = ${idUsuario}
-        ORDER BY dataRegistro DESC
+        ORDER BY dataRegistro ASC
         LIMIT 1;
     `;
 
@@ -58,7 +58,7 @@ router.get('/todos/:idUsuario', (req, res) => {
         SELECT pontuacao, totalQuestoes, dataRegistro 
         FROM resultado_quiz 
         WHERE idUsuario = ${idUsuario}
-        ORDER BY dataRegistro DESC;
+        ORDER BY dataRegistro ASC;
     `;
 
     database.executar(instrucaoSql)

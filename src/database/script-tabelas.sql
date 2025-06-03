@@ -31,14 +31,15 @@ CREATE TABLE feedback_usuario (
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-
+INSERT INTO usuario (idUsuario, nome, email, senha) VALUES
+(1, 'f', 'fgsp@gmail.com', 'shote213');
 
 INSERT INTO resultado_quiz (idUsuario, pontuacao, totalQuestoes, dataRegistro) VALUES
 (1, 7, 10, '2025-05-10 10:00:00'),
 (1, 9, 10, '2025-05-15 14:30:00'),
 (1, 6, 10, '2025-05-20 09:15:00'),
 (1, 8, 10, '2025-05-25 11:00:00'),
-(1, 10, 10, '2025-06-03 16:45:00');
+(1, 10, 10, '2025-05-03 16:45:00');
 
 SELECT * FROM resultado_quiz WHERE idUsuario = 1 ORDER BY dataRegistro ASC;
 SELECT * FROM usuario;
