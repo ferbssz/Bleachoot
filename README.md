@@ -4,7 +4,7 @@ Projeto de quiz interativo com tema do anime Bleach, feito com HTML, CSS, JavaSc
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 - Login e cadastro de usuários
 - Quiz com perguntas pré-definidas no front-end
 - Pontuação salva no banco de dados
@@ -13,7 +13,7 @@ Projeto de quiz interativo com tema do anime Bleach, feito com HTML, CSS, JavaSc
 
 ---
 
-## 🛠️ Tecnologias utilizadas
+## Tecnologias utilizadas
 - HTML, CSS, JavaScript
 - Node.js + Express
 - MySQL
@@ -21,5 +21,5 @@ Projeto de quiz interativo com tema do anime Bleach, feito com HTML, CSS, JavaSc
 
 ---
 
-## 🙌 Créditos
+## Créditos
 Projeto desenvolvido por Fernando Padrão como parte do projeto BLEACHOOT. Inspirado no anime Bleach e na mecânica do Kahoot!
